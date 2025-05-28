@@ -61,12 +61,18 @@ const Skills = () => {
                   <div className="w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center mb-3 
                     group-hover:bg-gray-900 transition-all duration-300 shadow-sm group-hover:shadow-md">
                     <div className="w-8 h-8 relative group-hover:brightness-0 group-hover:invert transition-all duration-300">
+                      {/* Fallback icon mientras carga la imagen */}
+                      <div className="w-full h-full bg-gray-300 rounded animate-pulse absolute inset-0"></div>
                       <Image 
                         src={`/skills/${skill.icon}.svg`}
                         alt={skill.name}
                         width={32}
                         height={32}
-                        className="object-contain"
+                        className="object-contain relative z-10"
+                        onError={(e) => {
+                          // Si la imagen no carga, mostrar un placeholder
+                          e.currentTarget.style.display = 'none';
+                        }}
                       />
                     </div>
                   </div>
@@ -85,12 +91,16 @@ const Skills = () => {
                   <div className="w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center mb-3 
                     group-hover:bg-gray-900 transition-all duration-300 shadow-sm group-hover:shadow-md">
                     <div className="w-8 h-8 relative group-hover:brightness-0 group-hover:invert transition-all duration-300">
+                      <div className="w-full h-full bg-gray-300 rounded animate-pulse absolute inset-0"></div>
                       <Image 
                         src={`/skills/${skill.icon}.svg`}
                         alt={skill.name}
                         width={32}
                         height={32}
-                        className="object-contain"
+                        className="object-contain relative z-10"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
                       />
                     </div>
                   </div>
@@ -109,12 +119,16 @@ const Skills = () => {
                   <div className="w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center mb-3 
                     group-hover:bg-gray-900 transition-all duration-300 shadow-sm group-hover:shadow-md">
                     <div className="w-8 h-8 relative group-hover:brightness-0 group-hover:invert transition-all duration-300">
+                      <div className="w-full h-full bg-gray-300 rounded animate-pulse absolute inset-0"></div>
                       <Image 
                         src={`/skills/${skill.icon}.svg`}
                         alt={skill.name}
                         width={32}
                         height={32}
-                        className="object-contain"
+                        className="object-contain relative z-10"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
                       />
                     </div>
                   </div>
