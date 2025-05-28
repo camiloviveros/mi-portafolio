@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "framer-motion": "^10.18.0",
+    "mi-portafolio": "file:",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
