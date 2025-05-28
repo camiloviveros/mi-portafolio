@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
-const geistSans = Inter({
-  variable: "--font-geist-sans",
+const inter = Inter({ 
   subsets: ["latin"],
-});
-
-const geistMono = Roboto_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "Mi Portafolio",
-  description: "Portafolio creado con Next.js y Tailwind CSS",
+  title: "William Camilo - Developer Portfolio",
+  description: "Full Stack Developer & Software Engineer",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -23,9 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+    <html lang="es" className="scroll-smooth">
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <Navbar />
+        <main className="relative">
+          {children}
+        </main>
       </body>
     </html>
   );
