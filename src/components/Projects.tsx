@@ -2,6 +2,10 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import SectionTitle from './SectionTitle';
+
+
+
 
 const projectsData = {
   featured: [

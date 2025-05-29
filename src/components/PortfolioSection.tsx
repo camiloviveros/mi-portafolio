@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import SectionTitle from './SectionTitle';
+import SectionTitle from '../components/SectionTitle';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
 // Definición de tipos para proyectos
