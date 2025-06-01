@@ -2,10 +2,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import SectionTitle from './SectionTitle';
-
-
-
 
 const projectsData = {
   featured: [
@@ -74,7 +70,7 @@ const projectsData = {
       image: "/projects/water-control.jpg",
       category: "IoT",
       technologies: ["Next.js", "Tailwind CSS", "DeepSeek AI", "API"],
-      liveUrl: "https://vercel.com/camiloviveros-projects/agua-control/F6Um22cvDQ15QFCKWgxXrrkktWHZ",
+      liveUrl: "https://agua-control.vercel.app/",
       status: "Desplegado",
       type: "Sistema IoT"
     },
@@ -96,7 +92,7 @@ const projectsData = {
       image: "/projects/future-web.jpg",
       category: "Diseño Web",
       technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
-      liveUrl: "https://vercel.com/camiloviveros-projects/pagina-futuro/5p4GwDunixLMmQofknbVauAkBFo2",
+      liveUrl: "https://pagina-futuro.vercel.app/",
       status: "Desplegado",
       type: "Landing Page"
     }
@@ -185,24 +181,24 @@ const projectsData = {
 };
 
 const ProjectCard = ({ project, index }: { project: any, index: number }) => {
-  const getStatusColor = (status: string) => {
+  const getStatusStyle = (status: string) => {
     switch (status) {
-      case 'Desplegado': return 'bg-green-100 text-green-800';
-      case 'Completado': return 'bg-blue-100 text-blue-800';
-      case 'En desarrollo': return 'bg-yellow-100 text-yellow-800';
-      case 'En producción - Backend': return 'bg-purple-100 text-purple-800';
-      case 'Próximo a desplegar': return 'bg-orange-100 text-orange-800';
-      case 'Listo para desplegar': return 'bg-indigo-100 text-indigo-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'Desplegado': return 'text-green-600';
+      case 'Completado': return 'text-blue-600';
+      case 'En desarrollo': return 'text-yellow-600';
+      case 'En producción - Backend': return 'text-purple-600';
+      case 'Próximo a desplegar': return 'text-orange-600';
+      case 'Listo para desplegar': return 'text-indigo-600';
+      default: return 'text-gray-600';
     }
   };
 
   return (
     <div 
-      className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
+      className="group bg-white border-2 border-black hover:bg-black hover:text-white transition-all duration-300 flex flex-col h-full"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+      <div className="aspect-[16/10] relative overflow-hidden bg-gray-100 flex-shrink-0">
         <Image 
           src={project.image}
           alt={project.title}
@@ -212,60 +208,55 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
         
         {/* Status Badge */}
-        <div className="absolute top-4 right-4">
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(project.status)}`}>
+        <div className="absolute top-2 right-2">
+          <span className={`px-2 py-1 bg-white text-xs font-mono ${getStatusStyle(project.status)} rounded`}>
             {project.status}
-          </span>
-        </div>
-        
-        {/* Type Badge */}
-        <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 bg-black/70 text-white rounded-full text-xs font-medium">
-            {project.type}
           </span>
         </div>
       </div>
 
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-gray-800 group-hover:text-black transition-colors">
-            {project.title}
+      <div className="p-4 flex flex-col flex-grow">
+        <div className="mb-3">
+          <h3 className="text-base font-bold text-black group-hover:text-white break-words leading-tight">
+            <span className="text-gray-600 group-hover:text-gray-400">project.</span>
+            <span className="break-all">{project.title.replace(/\s+/g, '')}</span>
           </h3>
-          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-            {project.category}
+          <span className="text-xs text-gray-500 group-hover:text-gray-400 font-mono">
+            // {project.category}
           </span>
         </div>
         
-        <p className="text-sm text-gray-600 mb-4 line-clamp-3">
-          {project.description}
+        <p className="text-sm text-gray-700 group-hover:text-gray-300 mb-4 font-mono flex-grow overflow-hidden">
+          <span className="break-words line-clamp-3">"{project.description}"</span>
         </p>
         
         {/* Technologies */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.technologies.slice(0, 4).map((tech: string, i: number) => (
-            <span key={i} className="text-xs px-2 py-1 bg-gray-50 text-gray-700 rounded border">
-              {tech}
-            </span>
-          ))}
-          {project.technologies.length > 4 && (
-            <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">
-              +{project.technologies.length - 4}
-            </span>
-          )}
+        <div className="mb-4 font-mono text-xs">
+          <span className="text-gray-600 group-hover:text-gray-400">tech: [</span>
+          <div className="pl-4 break-words">
+            {project.technologies.slice(0, 3).map((tech: string, i: number) => (
+              <span key={i} className="block break-all">
+                "{tech}"{i < Math.min(project.technologies.length - 1, 2) ? ',' : ''}
+              </span>
+            ))}
+            {project.technologies.length > 3 && (
+              <span className="text-gray-500 group-hover:text-gray-400">
+                // +{project.technologies.length - 3} more
+              </span>
+            )}
+          </div>
+          <span className="text-gray-600 group-hover:text-gray-400">]</span>
         </div>
         
         {/* Links */}
-        <div className="flex gap-3 text-sm">
+        <div className="flex flex-wrap gap-2 text-sm font-mono mt-auto">
           {project.liveUrl && (
             <Link 
               href={project.liveUrl}
               target="_blank"
-              className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors font-medium"
+              className="text-blue-600 hover:text-blue-800 group-hover:text-white group-hover:hover:text-gray-300 break-all"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-              <span>Ver Demo</span>
+              view()
             </Link>
           )}
           
@@ -273,12 +264,9 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
             <Link 
               href={project.githubRepo}
               target="_blank"
-              className="flex items-center gap-1 text-gray-700 hover:text-black transition-colors font-medium"
+              className="text-black hover:text-gray-700 group-hover:text-white group-hover:hover:text-gray-300 break-all"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              <span>Código</span>
+              code()
             </Link>
           )}
           
@@ -286,12 +274,9 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
             <Link 
               href={project.githubFrontend}
               target="_blank"
-              className="flex items-center gap-1 text-green-600 hover:text-green-800 transition-colors font-medium"
+              className="text-green-600 hover:text-green-800 group-hover:text-white group-hover:hover:text-gray-300 break-all"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              <span>Frontend</span>
+              frontend()
             </Link>
           )}
           
@@ -299,12 +284,9 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
             <Link 
               href={project.githubBackend}
               target="_blank"
-              className="flex items-center gap-1 text-purple-600 hover:text-purple-800 transition-colors font-medium"
+              className="text-purple-600 hover:text-purple-800 group-hover:text-white group-hover:hover:text-gray-300 break-all"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              <span>Backend</span>
+              backend()
             </Link>
           )}
         </div>
@@ -337,14 +319,16 @@ const Projects = () => {
   }, []);
 
   const tabs = [
-    { id: 'featured', label: 'Destacados', count: projectsData.featured.length },
-    { id: 'web', label: 'Aplicaciones Web', count: projectsData.web.length },
-    { id: 'designs', label: 'Diseños', count: projectsData.designs.length },
-    { id: 'systems', label: 'Sistemas', count: projectsData.systems.length }
+    { id: 'all', label: 'all', count: Object.values(projectsData).flat().length },
+    { id: 'featured', label: 'featured', count: projectsData.featured.length },
+    { id: 'web', label: 'webApps', count: projectsData.web.length },
+    { id: 'designs', label: 'designs', count: projectsData.designs.length },
+    { id: 'systems', label: 'systems', count: projectsData.systems.length }
   ];
 
   const getCurrentProjects = () => {
     switch (activeTab) {
+      case 'all': return Object.values(projectsData).flat();
       case 'featured': return projectsData.featured;
       case 'web': return projectsData.web;
       case 'designs': return projectsData.designs;
@@ -356,57 +340,61 @@ const Projects = () => {
   const totalProjects = Object.values(projectsData).flat().length;
 
   return (
-    <section id="projects" className="py-20 bg-gradient-to-b from-white to-gray-50" ref={sectionRef}>
-      <div className="container mx-auto px-6">
+    <section id="projects" className="py-20 bg-white font-code" ref={sectionRef}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-light mb-4">
-            MI PORTAFOLIO
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="text-gray-600">const</span>{' '}
+            <span className="text-black">Projects</span>{' '}
+            <span className="text-gray-600">=</span>{' '}
+            <span className="text-gray-600">{'{'}</span>
           </h2>
-          <div className="w-16 h-[1px] bg-black mx-auto mb-6"></div>
-          <p className="text-gray-600 max-w-3xl mx-auto mb-8">
-            Una colección de {totalProjects} proyectos que demuestran mi experiencia en desarrollo, 
-            desde aplicaciones web hasta sistemas empresariales y diseños interactivos.
+          <div className="w-24 h-[2px] bg-black mx-auto mb-6"></div>
+          <p className="text-gray-700 max-w-3xl mx-auto mb-8 text-lg">
+            <span className="text-gray-500">// </span>
+            Total: {totalProjects} proyectos desarrollados y muchos más en desarrollo actualmente
           </p>
           
           {/* Estadísticas Rápidas */}
-          <div className="flex justify-center gap-8 text-sm text-gray-600 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm text-gray-700 mb-8 font-mono">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span>{projectsData.web.filter(p => p.status === 'Desplegado').length + projectsData.designs.filter(p => p.status === 'Desplegado').length} Desplegados</span>
+              <span className="text-green-600">●</span>
+              <span>deployed: {projectsData.web.filter(p => p.status === 'Desplegado').length + projectsData.designs.filter(p => p.status === 'Desplegado').length}</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <span>{projectsData.featured.filter(p => p.status.includes('desarrollo')).length + projectsData.systems.filter(p => p.status.includes('desarrollo')).length} En Desarrollo</span>
+              <span className="text-yellow-600">●</span>
+              <span>inProgress: {projectsData.featured.filter(p => p.status.includes('desarrollo')).length + projectsData.systems.filter(p => p.status.includes('desarrollo')).length}</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span>{projectsData.featured.filter(p => p.status === 'Completado').length + projectsData.systems.filter(p => p.status === 'Completado').length} Completados</span>
+              <span className="text-blue-600">●</span>
+              <span>completed: {projectsData.featured.filter(p => p.status === 'Completado').length + projectsData.systems.filter(p => p.status === 'Completado').length}</span>
             </div>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex p-1 bg-gray-100 rounded-lg">
-            {tabs.map((tab) => (
+        {/* Tabs estilo código */}
+        <div className="flex justify-center mb-12 overflow-x-auto">
+          <div className="inline-flex p-2 bg-gray-100 border-2 border-black whitespace-nowrap">
+            <span className="text-black font-bold px-2 py-2 flex-shrink-0">projects.</span>
+            {tabs.map((tab, index) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                className={`px-3 sm:px-4 py-2 text-sm font-mono transition-all duration-200 flex-shrink-0 ${
                   activeTab === tab.id
-                    ? 'bg-black text-white shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-black text-white'
+                    : 'text-black hover:bg-gray-200'
                 }`}
               >
                 {tab.label}
-                <span className="ml-2 text-xs opacity-75">({tab.count})</span>
+                <span className="ml-1 text-xs opacity-75">({tab.count})</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {getCurrentProjects().map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
@@ -414,36 +402,55 @@ const Projects = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-2xl mx-auto">
-            <h3 className="text-xl font-semibold mb-4">¿Interesado en colaborar?</h3>
-            <p className="text-gray-600 mb-6">
-              Estos proyectos representan mi pasión por crear soluciones tecnológicas innovadoras. 
-              Siempre estoy abierto a nuevos desafíos y oportunidades de colaboración.
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12">
+            <span className="text-gray-600">{'}'}</span>
+          </h2>
+          
+          <div className="bg-black text-white p-6 sm:p-8 max-w-2xl mx-auto">
+            <h3 className="text-lg sm:text-xl font-bold mb-4 font-mono">
+              <span className="text-gray-400">if (</span>
+              interested
+              <span className="text-gray-400">) {'{'}</span>
+            </h3>
+            <p className="text-gray-300 mb-6 font-mono text-sm">
+              collaborate() // Siempre abierto a nuevos desafíos
             </p>
-            <div className="flex gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="https://github.com/camiloviveros" 
                 target="_blank"
-                className="inline-flex items-center gap-2 bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                className="inline-flex items-center justify-center gap-2 bg-white text-black px-6 py-3 font-bold hover:bg-gray-200 transition-colors"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                <span>Ver más en GitHub</span>
+                <span className="text-gray-600">{'<'}</span>
+                GitHub
+                <span className="text-gray-600">{'/>'}</span>
               </Link>
               <Link 
                 href="#contact"
-                className="inline-flex items-center gap-2 border-2 border-black text-black px-6 py-3 rounded-lg hover:bg-black hover:text-white transition-all duration-300 font-medium"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 font-bold hover:bg-white hover:text-black transition-all duration-300"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span>Contactar</span>
+                contact();
               </Link>
             </div>
+            <h3 className="text-lg sm:text-xl font-bold mt-6 font-mono">
+              <span className="text-gray-400">{'}'}</span>
+            </h3>
           </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        .font-code {
+          font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+        
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </section>
   );
 };
