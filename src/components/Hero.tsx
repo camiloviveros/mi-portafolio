@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -13,7 +14,7 @@ const Hero = () => {
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
   // Líneas de código agrupadas para terminal más compacta
-  const codeLines = [
+  const codeLines = useMemo(() => [
     { text: 'class Developer {', delay: 100 },
     { text: '  constructor() {', delay: 80 },
     { text: '    this.name = "William Camilo Gutierrez";', delay: 60 },
@@ -25,7 +26,7 @@ const Hero = () => {
     { text: '    return "Sistemas seguros y escalables";', delay: 60 },
     { text: '  }', delay: 80 },
     { text: '}', delay: 100 }
-  ];
+  ], []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -89,7 +90,7 @@ const Hero = () => {
       }, 4000);
       return () => clearTimeout(timeout);
     }
-  }, [isLoaded, currentLineIndex, currentCharIndex, loopCount]);
+  }, [isLoaded, currentLineIndex, currentCharIndex, loopCount, codeLines, isTypingComplete]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -243,8 +244,8 @@ const Hero = () => {
               </div>
 
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600 font-mono text-center lg:text-left">
-                <span className="text-gray-400">// </span>
-                <span>Construyendo el futuro, una línea de código a la vez</span>
+                <span className="text-gray-400">{/* Construyendo el futuro, una línea de código a la vez */}</span>
+                Construyendo el futuro, una línea de código a la vez
               </p>
             </div>
           </div>
@@ -297,10 +298,11 @@ const Hero = () => {
                   <div className="border-2 border-gray-600 p-2 sm:p-3 md:p-4 transition-colors duration-500 bg-gradient-to-br from-gray-800 to-gray-900">
                     {/* Imagen cuadrada */}
                     <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-gray-800 to-black">
-                      <img 
+                      <Image 
                         src="/images/profile.jpg" 
                         alt="William Camilo" 
-                        className="w-full h-full object-cover transition-transform duration-1000 lg:hover:scale-125 lg:hover:rotate-3"
+                        fill
+                        className="object-cover transition-transform duration-1000 lg:hover:scale-125 lg:hover:rotate-3"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';

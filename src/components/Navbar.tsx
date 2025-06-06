@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import ExplorerMenu from './ExplorerMenu'; // Importar el nuevo componente
+import ExplorerMenu from './ExplorerMenu';
 
 interface NavItem {
   id: string;
@@ -74,14 +74,12 @@ const Navbar: React.FC = () => {
                 aria-label="Explorer menu"
               >
                 {!explorerMenu ? (
-                  // Tres puntos cuando está cerrado
                   <div className="flex flex-col gap-1">
                     <div className="w-1 h-1 bg-white rounded-full group-hover:scale-125 transition-transform duration-200"></div>
                     <div className="w-1 h-1 bg-white rounded-full group-hover:scale-125 transition-transform duration-200 delay-75"></div>
                     <div className="w-1 h-1 bg-white rounded-full group-hover:scale-125 transition-transform duration-200 delay-150"></div>
                   </div>
                 ) : (
-                  // X cuando está abierto
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -109,7 +107,7 @@ const Navbar: React.FC = () => {
               {/* Desktop Menu */}
               <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
                 <span className="text-gray-400 mr-2 text-lg transition-colors duration-300">{'['}</span>
-                {navItems.map((item: NavItem, index: number) => (
+                {navItems.map((item: NavItem, itemIndex: number) => (
                   <div key={item.id} className="flex items-center">
                     <button
                       onClick={() => scrollToSection(item.id)}
@@ -130,12 +128,12 @@ const Navbar: React.FC = () => {
                       )}
                       
                       <span className="relative z-10">
-                        <span className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">"</span>
+                        <span className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">&quot;</span>
                         <span className="mx-0.5">{item.label}</span>
-                        <span className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">"</span>
+                        <span className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">&quot;</span>
                       </span>
                     </button>
-                    {index < navItems.length - 1 && (
+                    {itemIndex < navItems.length - 1 && (
                       <span className="text-gray-400 mx-0.5 lg:mx-1 transition-colors duration-300">,</span>
                     )}
                   </div>
@@ -192,7 +190,7 @@ const Navbar: React.FC = () => {
           }`}>
             <div className="bg-black/95 backdrop-blur-md border-t border-gray-800/50 shadow-2xl">
               <div className="p-4 sm:p-6 space-y-1">
-                {navItems.map((item: NavItem, index: number) => (
+                {navItems.map((item: NavItem) => (
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
@@ -205,9 +203,9 @@ const Navbar: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                     
                     <span className="relative z-10">
-                      <span className="text-gray-500 group-hover:text-gray-400 transition-colors duration-300">"</span>
+                      <span className="text-gray-500 group-hover:text-gray-400 transition-colors duration-300">&quot;</span>
                       <span className="mx-1">{item.label}</span>
-                      <span className="text-gray-500 group-hover:text-gray-400 transition-colors duration-300">"</span>
+                      <span className="text-gray-500 group-hover:text-gray-400 transition-colors duration-300">&quot;</span>
                     </span>
                   </button>
                 ))}

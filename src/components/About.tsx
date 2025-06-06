@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 
 const About = () => {
@@ -9,76 +9,23 @@ const About = () => {
   const [showCursor, setShowCursor] = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
   const [titleVisible, setTitleVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false); // Nueva bandera
-  const lastAnimationTime = useRef<number>(0); // Tiempo de última animación
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const lastAnimationTime = useRef<number>(0);
 
-  const terminalCommands = [
-    { command: 'npm install about-william-camilo', delay: 800 },
-    { command: '📦 Installing dependencies...', delay: 600 },
-    { command: '✓ Loaded personal-history.json', delay: 500 },
-    { command: '✓ Compiled skills-matrix.tsx', delay: 500 },
-    { command: '🚀 Building William Camilo profile...', delay: 600 },
-    { command: '⚡ Generating about section...', delay: 500 },
-    { command: '✅ About section ready!', delay: 500 },
-    { command: '🌐 Starting development server...', delay: 500 },
-    { command: '⚡ Server running on http://localhost:3000', delay: 600 },
-    { command: 'function aboutMe() { ... }', delay: 600 }
-  ];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const currentTime = Date.now();
-            const timeSinceLastAnimation = currentTime - lastAnimationTime.current;
-            
-            // Solo ejecutar si nunca se ha animado O si han pasado más de 5 minutos (300 segundos)
-            if (!hasAnimated || timeSinceLastAnimation > 300000) {
-              // Reset states solo si se va a ejecutar la animación
-              setTerminalState('idle');
-              setTerminalLines([]);
-              setContentVisible(false);
-              setTitleVisible(false);
-              
-              setTimeout(() => {
-                setTerminalState('executing');
-                executeTerminalAnimation();
-                setHasAnimated(true);
-                lastAnimationTime.current = currentTime;
-              }, 500);
-            } else {
-              // Si ya se animó recientemente, mostrar contenido directamente
-              if (terminalState === 'idle') {
-                setTerminalState('completed');
-                setContentVisible(true);
-                setTitleVisible(true);
-              }
-            }
-          }
-        });
-      },
-      { 
-        threshold: 0.2,
-        rootMargin: '0px 0px -100px 0px'
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [hasAnimated, terminalState]);
-
-  useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
-    }, 500);
-    return () => clearInterval(cursorInterval);
-  }, []);
-
-  const executeTerminalAnimation = async () => {
+  const executeTerminalAnimation = useCallback(async () => {
+    const terminalCommands = [
+      { command: 'npm install about-william-camilo', delay: 800 },
+      { command: '📦 Installing dependencies...', delay: 600 },
+      { command: '✓ Loaded personal-history.json', delay: 500 },
+      { command: '✓ Compiled skills-matrix.tsx', delay: 500 },
+      { command: '🚀 Building William Camilo profile...', delay: 600 },
+      { command: '⚡ Generating about section...', delay: 500 },
+      { command: '✅ About section ready!', delay: 500 },
+      { command: '🌐 Starting development server...', delay: 500 },
+      { command: '⚡ Server running on http://localhost:3000', delay: 600 },
+      { command: 'function aboutMe() { ... }', delay: 600 }
+    ];
+    
     let commandIndex = 0;
     
     const executeNextCommand = () => {
@@ -102,7 +49,57 @@ const About = () => {
     };
 
     executeNextCommand();
-  };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const currentTime = Date.now();
+            const timeSinceLastAnimation = currentTime - lastAnimationTime.current;
+            
+            if (!hasAnimated || timeSinceLastAnimation > 300000) {
+              setTerminalState('idle');
+              setTerminalLines([]);
+              setContentVisible(false);
+              setTitleVisible(false);
+              
+              setTimeout(() => {
+                setTerminalState('executing');
+                executeTerminalAnimation();
+                setHasAnimated(true);
+                lastAnimationTime.current = currentTime;
+              }, 500);
+            } else {
+              if (terminalState === 'idle') {
+                setTerminalState('completed');
+                setContentVisible(true);
+                setTitleVisible(true);
+              }
+            }
+          }
+        });
+      },
+      { 
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px'
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated, terminalState, executeTerminalAnimation]);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 500);
+    return () => clearInterval(cursorInterval);
+  }, []);
 
   return (
     <section id="about" className="py-20 bg-white font-code" ref={sectionRef}>
@@ -168,7 +165,7 @@ const About = () => {
                       <span className="text-purple-300">function</span> <span className="text-cyan-300">aboutMe</span><span className="text-gray-300">()</span> <span className="text-yellow-300">{'{'}</span>
                     </div>
                     <div className="text-green-300 ml-4 mt-1">
-                      <span className="text-purple-300">return</span> <span className="text-yellow-300">"Ready to explore my story..."</span><span className="text-gray-300">;</span>
+                      <span className="text-purple-300">return</span> <span className="text-yellow-300">&quot;Ready to explore my story...&quot;</span><span className="text-gray-300">;</span>
                     </div>
                     <div className="text-yellow-300 font-semibold">
                       {'}'}
@@ -204,8 +201,7 @@ const About = () => {
             </h2>
             <div className="w-24 h-[2px] bg-black mx-auto mb-6"></div>
             <p className="text-gray-700 max-w-3xl mx-auto text-lg">
-              <span className="text-gray-500">// </span>
-              Técnico en sistemas, persona humilde con ganas de seguir creciendo y en constante aprendizaje. Me gusta mucho el trabajo en equipo, mi pasatiempo es ver películas, jugar fútbol o explorar lugares.
+              <span className="text-gray-500">{/* */} Técnico en sistemas, persona humilde con ganas de seguir creciendo y en constante aprendizaje. Me gusta mucho el trabajo en equipo, mi pasatiempo es ver películas, jugar fútbol o explorar lugares. {/* */}</span>
             </p>
           </div>
 
@@ -224,19 +220,19 @@ const About = () => {
                   <div className="pl-4 space-y-3 font-mono text-sm">
                     <p>
                       <span className="text-blue-600 group-hover:text-blue-400">nacimiento:</span>{' '}
-                      <span className="text-green-600 group-hover:text-green-400">"11 de enero de 2001"</span>,
+                      <span className="text-green-600 group-hover:text-green-400">&quot;11 de enero de 2001&quot;</span>,
                     </p>
                     <p>
                       <span className="text-blue-600 group-hover:text-blue-400">lugar:</span>{' '}
-                      <span className="text-green-600 group-hover:text-green-400">"La Unión, Nariño"</span>,
+                      <span className="text-green-600 group-hover:text-green-400">&quot;La Unión, Nariño&quot;</span>,
                     </p>
                     <p>
                       <span className="text-blue-600 group-hover:text-blue-400">origen:</span>{' '}
-                      <span className="text-green-600 group-hover:text-green-400">"Campo cafetero"</span>,
+                      <span className="text-green-600 group-hover:text-green-400">&quot;Campo cafetero&quot;</span>,
                     </p>
                     <p>
                       <span className="text-blue-600 group-hover:text-blue-400">valores:</span>{' '}
-                      <span className="text-gray-600 group-hover:text-gray-400">['trabajo duro', 'responsabilidad', 'determinación']</span>
+                      <span className="text-gray-600 group-hover:text-gray-400">[&apos;trabajo duro&apos;, &apos;responsabilidad&apos;, &apos;determinación&apos;]</span>
                     </p>
                   </div>
                   <h3 className="text-xl font-bold mt-6 text-gray-600 group-hover:text-gray-400">{'}'};</h3>
@@ -255,17 +251,17 @@ const About = () => {
                     <div className="bg-gray-100 group-hover:bg-gray-900 p-4 border-l-4 border-blue-600">
                       <p>
                         <span className="text-blue-600 group-hover:text-blue-400">rol:</span>{' '}
-                        <span className="text-green-600 group-hover:text-green-400">"Infantería de Marina"</span>,
+                        <span className="text-green-600 group-hover:text-green-400">&quot;Infantería de Marina&quot;</span>,
                       </p>
                       <p>
                         <span className="text-blue-600 group-hover:text-blue-400">aprendizaje:</span>{' '}
-                        <span className="text-gray-600 group-hover:text-gray-400">['disciplina', 'liderazgo', 'trabajo en equipo']</span>
+                        <span className="text-gray-600 group-hover:text-gray-400">[&apos;disciplina&apos;, &apos;liderazgo&apos;, &apos;trabajo en equipo&apos;]</span>
                       </p>
                     </div>
                     <div className="bg-gray-100 group-hover:bg-gray-900 p-4 border-l-4 border-green-600">
                       <p>
                         <span className="text-blue-600 group-hover:text-blue-400">rol:</span>{' '}
-                        <span className="text-green-600 group-hover:text-green-400">"Desarrollador Full Stack"</span>,
+                        <span className="text-green-600 group-hover:text-green-400">&quot;Desarrollador Full Stack&quot;</span>,
                       </p>
                       <p>
                         <span className="text-blue-600 group-hover:text-blue-400">actual:</span>{' '}
@@ -273,7 +269,7 @@ const About = () => {
                       </p>
                       <p>
                         <span className="text-blue-600 group-hover:text-blue-400">pasión:</span>{' '}
-                        <span className="text-gray-600 group-hover:text-gray-400">['frontend', 'backend', 'ciberseguridad']</span>
+                        <span className="text-gray-600 group-hover:text-gray-400">[&apos;frontend&apos;, &apos;backend&apos;, &apos;ciberseguridad&apos;]</span>
                       </p>
                     </div>
                   </div>
@@ -285,9 +281,9 @@ const About = () => {
             {/* Tarjetas de experiencia */}
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                {icon: '{ }', title: 'EDUCACIÓN', items: ['Técnico.sistemas = true;', 'Ingeniería.software = "cursando";', 'aprendizaje = "constante";']},
-                {icon: '[ ]', title: 'MILITAR', items: ['servicio[0] = "Infantería";', 'servicio[1] = "Marina";', 'servicio.push("honor");']},
-                {icon: '( )', title: 'DESARROLLO', items: ['function build() {', '  return "soluciones";', '}']}
+                {icon: '{ }', title: 'EDUCACIÓN', items: ['Técnico.sistemas = true;', 'Ingeniería.software = &quot;cursando&quot;;', 'aprendizaje = &quot;constante&quot;;']},
+                {icon: '[ ]', title: 'MILITAR', items: ['servicio[0] = &quot;Infantería&quot;;', 'servicio[1] = &quot;Marina&quot;;', 'servicio.push(&quot;honor&quot;);']},
+                {icon: '( )', title: 'DESARROLLO', items: ['function build() {', '  return &quot;soluciones&quot;;', '}']}
               ].map((card, index) => (
                 <div key={index} className="group bg-white border-2 border-black hover:bg-black hover:text-white transition-all duration-300">
                   <div className="p-6 text-center">
@@ -295,7 +291,7 @@ const About = () => {
                     <h3 className="text-lg font-bold mb-4 tracking-wider text-black group-hover:text-white">{card.title}</h3>
                     <div className="space-y-2 font-mono text-xs text-left">
                       {card.items.map((item, i) => (
-                        <p key={i} className="text-gray-700 group-hover:text-gray-300 opacity-80 group-hover:opacity-100">{item}</p>
+                        <p key={i} className="text-gray-700 group-hover:text-gray-300 opacity-80 group-hover:opacity-100" dangerouslySetInnerHTML={{ __html: item }}></p>
                       ))}
                     </div>
                   </div>
@@ -314,10 +310,10 @@ const About = () => {
               
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                  {icon: '🔒', title: 'Ciberseguridad', desc: '// Análisis de vulnerabilidades\n// Pentesting y seguridad\n// Protección de sistemas'},
-                  {icon: '🐍', title: 'Django + Python', desc: '// APIs robustas\n// Sistemas escalables\n// Backend eficiente'},
-                  {icon: '⚽', title: 'Deportes', desc: '// Fútbol.play();\n// Naturaleza.explore();\n// Balance.maintain();'},
-                  {icon: '🎨', title: 'Diseño Web', desc: '// UI.create();\n// UX.optimize();\n// Design.innovate();'}
+                  {icon: '🔒', title: 'Ciberseguridad', desc: '{/* Análisis de vulnerabilidades */}\n{/* Pentesting y seguridad */}\n{/* Protección de sistemas */}'},
+                  {icon: '🐍', title: 'Django + Python', desc: '{/* APIs robustas */}\n{/* Sistemas escalables */}\n{/* Backend eficiente */}'},
+                  {icon: '⚽', title: 'Deportes', desc: '{/* Fútbol.play(); */}\n{/* Naturaleza.explore(); */}\n{/* Balance.maintain(); */}'},
+                  {icon: '🎨', title: 'Diseño Web', desc: '{/* UI.create(); */}\n{/* UX.optimize(); */}\n{/* Design.innovate(); */}'}
                 ].map((item, index) => (
                   <div key={index} className="group bg-white border-2 border-black hover:bg-black hover:text-white transition-all duration-300">
                     <div className="p-6 text-center">
@@ -367,7 +363,7 @@ const About = () => {
                   <span className="text-gray-400">) {'{'}</span>
                 </h3>
                 <p className="text-gray-300 mb-6 font-mono text-sm">
-                  connect() // Siempre abierto a nuevas oportunidades
+                  {/* */} connect() {/* Siempre abierto a nuevas oportunidades */}
                 </p>
                 <div className="flex gap-4 justify-center">
                   <Link 

@@ -3,16 +3,30 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+interface Skill {
+  name: string;
+  icon: string;
+  category: string;
+  description: string;
+  image: string;
+  documentation: string;
+  level: string;
+  experience: string;
+}
+
+interface SkillCardProps {
+  skill: Skill;
+  index: number;
+}
+
 const Skills = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState('using');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && sectionRef.current) {
-          setIsVisible(true);
           sectionRef.current.classList.add('animate-fadeIn');
         }
       },
@@ -265,7 +279,7 @@ const Skills = () => {
     }
   };
 
-  const SkillCard = ({ skill, index }: { skill: any; index: number }) => {
+  const SkillCard = ({ skill, index }: SkillCardProps) => {
     return (
       <div 
         className="group bg-white border-2 border-black hover:bg-black hover:text-white transition-all duration-300 flex flex-col h-full"
@@ -294,12 +308,12 @@ const Skills = () => {
               <span className="break-all">{skill.name.replace(/\s+/g, '')}</span>
             </h3>
             <span className="text-xs text-gray-500 group-hover:text-gray-400 font-mono">
-              // {skill.category} - {skill.experience}
+              {/* ${skill.category} - ${skill.experience} */} {skill.category} - {skill.experience}
             </span>
           </div>
           
           <p className="text-sm text-gray-700 group-hover:text-gray-300 mb-4 font-mono flex-grow overflow-hidden">
-            <span className="break-words line-clamp-3">"{skill.description}"</span>
+            <span className="break-words line-clamp-3">&quot;{skill.description}&quot;</span>
           </p>
           
           {/* Links */}
@@ -334,7 +348,7 @@ const Skills = () => {
           </h2>
           <div className="w-24 h-[2px] bg-black mx-auto mb-6"></div>
           <p className="text-gray-700 max-w-4xl mx-auto mb-8 text-lg">
-            <span className="text-gray-500">// </span>
+            <span className="text-gray-500">{/* Me gusta mucho el trabajo en Next.js y Tailwind, utilizar React en frontend, Django y Python en backend, y PostgreSQL/MySQL Workbench para bases de datos. Estoy en constante aprendizaje, pero esto es en lo que más me desempeño y sigo aprendiendo para fortalecer más estos aspectos. */}</span>
             Me gusta mucho el trabajo en Next.js y Tailwind, utilizar React en frontend, Django y Python en backend, y PostgreSQL/MySQL Workbench para bases de datos. Estoy en constante aprendizaje, pero esto es en lo que más me desempeño y sigo aprendiendo para fortalecer más estos aspectos.
           </p>
           
@@ -359,7 +373,7 @@ const Skills = () => {
         <div className="flex justify-center mb-12 overflow-x-auto">
           <div className="inline-flex p-2 bg-gray-100 border-2 border-black whitespace-nowrap">
             <span className="text-black font-bold px-2 py-2 flex-shrink-0">skills.</span>
-            {tabs.map((tab, index) => (
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -378,8 +392,8 @@ const Skills = () => {
 
         {/* Skills Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {getCurrentSkills().map((skill, index) => (
-            <SkillCard key={`${skill.name}-${activeTab}`} skill={skill} index={index} />
+          {getCurrentSkills().map((skill, skillIndex) => (
+            <SkillCard key={`${skill.name}-${activeTab}`} skill={skill} index={skillIndex} />
           ))}
         </div>
 
@@ -396,7 +410,7 @@ const Skills = () => {
               <span className="text-gray-400">) {'{'}</span>
             </h3>
             <p className="text-gray-300 mb-6 font-mono text-sm">
-              improve() // Siempre en constante crecimiento
+              {/* Siempre en constante crecimiento */} improve()
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 

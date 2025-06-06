@@ -3,6 +3,21 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  category: string;
+  technologies: string[];
+  githubFrontend?: string;
+  githubBackend?: string;
+  githubRepo?: string;
+  liveUrl?: string;
+  status: string;
+  type: string;
+}
+
 const projectsData = {
   featured: [
     {
@@ -180,7 +195,12 @@ const projectsData = {
   ]
 };
 
-const ProjectCard = ({ project, index }: { project: any, index: number }) => {
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+}
+
+const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const getStatusStyle = (status: string) => {
     switch (status) {
       case 'Desplegado': return 'text-green-600';
@@ -222,12 +242,12 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
             <span className="break-all">{project.title.replace(/\s+/g, '')}</span>
           </h3>
           <span className="text-xs text-gray-500 group-hover:text-gray-400 font-mono">
-            // {project.category}
+            {/* ${project.category} */} {project.category}
           </span>
         </div>
         
         <p className="text-sm text-gray-700 group-hover:text-gray-300 mb-4 font-mono flex-grow overflow-hidden">
-          <span className="break-words line-clamp-3">"{project.description}"</span>
+          <span className="break-words line-clamp-3">&quot;{project.description}&quot;</span>
         </p>
         
         {/* Technologies */}
@@ -236,12 +256,12 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
           <div className="pl-4 break-words">
             {project.technologies.slice(0, 3).map((tech: string, i: number) => (
               <span key={i} className="block break-all">
-                "{tech}"{i < Math.min(project.technologies.length - 1, 2) ? ',' : ''}
+                &quot;{tech}&quot;{i < Math.min(project.technologies.length - 1, 2) ? ',' : ''}
               </span>
             ))}
             {project.technologies.length > 3 && (
               <span className="text-gray-500 group-hover:text-gray-400">
-                // +{project.technologies.length - 3} more
+                {/* +${project.technologies.length - 3} more */} +{project.technologies.length - 3} more
               </span>
             )}
           </div>
@@ -351,7 +371,7 @@ const Projects = () => {
           </h2>
           <div className="w-24 h-[2px] bg-black mx-auto mb-6"></div>
           <p className="text-gray-700 max-w-3xl mx-auto mb-8 text-lg">
-            <span className="text-gray-500">// </span>
+            <span className="text-gray-500">{/* Total: ${totalProjects} proyectos desarrollados y muchos más en desarrollo actualmente */}</span>
             Total: {totalProjects} proyectos desarrollados y muchos más en desarrollo actualmente
           </p>
           
@@ -376,7 +396,7 @@ const Projects = () => {
         <div className="flex justify-center mb-12 overflow-x-auto">
           <div className="inline-flex p-2 bg-gray-100 border-2 border-black whitespace-nowrap">
             <span className="text-black font-bold px-2 py-2 flex-shrink-0">projects.</span>
-            {tabs.map((tab, index) => (
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -395,8 +415,8 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {getCurrentProjects().map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {getCurrentProjects().map((project, projectIndex) => (
+            <ProjectCard key={project.id} project={project} index={projectIndex} />
           ))}
         </div>
 
@@ -413,7 +433,7 @@ const Projects = () => {
               <span className="text-gray-400">) {'{'}</span>
             </h3>
             <p className="text-gray-300 mb-6 font-mono text-sm">
-              collaborate() // Siempre abierto a nuevos desafíos
+              {/* Siempre abierto a nuevos desafíos */} collaborate()
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 

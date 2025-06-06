@@ -1,5 +1,4 @@
 "use client";
-import { useState } from 'react';
 
 const Contact = () => {
   return (
@@ -12,7 +11,7 @@ const Contact = () => {
             <span className="text-gray-400">() {'{'}</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            <span className="text-gray-500">// </span>
+            <span className="text-gray-500">{/* Siempre abierto a nuevos proyectos y colaboraciones */}</span>
             Siempre abierto a nuevos proyectos y colaboraciones
           </p>
         </div>
@@ -29,7 +28,7 @@ const Contact = () => {
               </h3>
               
               <p className="text-sm text-gray-400 mb-6 pl-8 font-mono">
-                <span className="text-gray-500">// </span>
+                <span className="text-gray-500">{/* Desarrollador colombiano, honesto y comprometido. Listo para trabajar en cualquier entorno. */}</span>
                 Desarrollador colombiano, honesto y comprometido. Listo para trabajar en cualquier entorno.
               </p>
               
@@ -40,7 +39,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">email:</p>
-                    <p className="font-mono break-all">"camiloviveros111@gmail.com"</p>
+                    <p className="font-mono break-all">&quot;camiloviveros111@gmail.com&quot;</p>
                   </div>
                 </a>
 
@@ -50,7 +49,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">phone:</p>
-                    <p className="font-mono">"+57 317 311 8659"</p>
+                    <p className="font-mono">&quot;+57 317 311 8659&quot;</p>
                   </div>
                 </a>
 
@@ -60,7 +59,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">location:</p>
-                    <p className="font-mono">"La Unión, Nariño"</p>
+                    <p className="font-mono">&quot;La Unión, Nariño&quot;</p>
                   </div>
                 </div>
               </div>
@@ -89,7 +88,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">github:</p>
-                  <p className="font-mono text-sm break-all">"@camiloviveros"</p>
+                  <p className="font-mono text-sm break-all">&quot;@camiloviveros&quot;</p>
                 </div>
               </a>
 
@@ -101,7 +100,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">linkedin:</p>
-                  <p className="font-mono text-sm">"William Camilo"</p>
+                  <p className="font-mono text-sm">&quot;William Camilo&quot;</p>
                 </div>
               </a>
 
@@ -113,7 +112,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">facebook:</p>
-                  <p className="font-mono text-sm">"Camilo Viveros"</p>
+                  <p className="font-mono text-sm">&quot;Camilo Viveros&quot;</p>
                 </div>
               </a>
 
@@ -125,7 +124,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">instagram:</p>
-                  <p className="font-mono text-sm">"@camiloviveros111"</p>
+                  <p className="font-mono text-sm">&quot;@camiloviveros111&quot;</p>
                 </div>
               </a>
 
@@ -137,7 +136,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">whatsapp:</p>
-                  <p className="font-mono text-sm">"+57 317 813 0475"</p>
+                  <p className="font-mono text-sm">&quot;+57 317 813 0475&quot;</p>
                 </div>
               </a>
 
@@ -149,7 +148,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">whatsapp_alt:</p>
-                  <p className="font-mono text-sm">"+57 317 311 8659"</p>
+                  <p className="font-mono text-sm">&quot;+57 317 311 8659&quot;</p>
                 </div>
               </a>
             </div>
@@ -166,7 +165,7 @@ const Contact = () => {
                 <span className="text-gray-400">) {'{'}</span>
               </h4>
               <p className="text-gray-300 mb-4 font-mono text-sm">
-                connect() // ¡Conectemos y creemos algo increíble!
+                {/* ¡Conectemos y creemos algo increíble! */} connect()
               </p>
               <div className="grid grid-cols-2 gap-3">
                 <a href="https://wa.me/573178130475" target="_blank" rel="noopener noreferrer"
@@ -188,13 +187,12 @@ const Contact = () => {
         {/* Footer */}
         <div className="text-center mt-20 pt-10 border-t border-gray-800">
           <p className="text-gray-400 font-mono">
-            <span className="text-gray-500">// </span>
+            <span className="text-gray-500">{/* © 2025 William Camilo. All rights reserved. */}</span>
             © 2025 William Camilo. All rights reserved.
           </p>
           <p className="text-sm text-gray-500 mt-2 font-mono">
-            <span className="text-gray-600">/* </span>
-            Built with Next.js && Tailwind CSS
-            <span className="text-gray-600"> */</span>
+            <span className="text-gray-600">{/* Built with Next.js && Tailwind CSS */}</span>
+            Built with Next.js &amp;&amp; Tailwind CSS
           </p>
         </div>
       </div>
